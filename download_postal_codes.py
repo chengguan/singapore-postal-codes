@@ -34,9 +34,43 @@ import json
 if __name__ == '__main__':
     pool = Pool(processes=5)
     
-    postal_codes = range(0, 1000000)
-    postal_codes = ['{0:06d}'.format(p) for p in postal_codes]
-
+    ref_sector_code = [
+        1, 2, 3, 4, 5, 6,     # D01
+        7, 8,                 # D02
+        14, 15, 16,           # D03
+        9, 10,                # D04
+        11, 12, 13,           # D05
+        17,                   # D06
+        18, 19,               # D07
+        20, 21,               # D08
+        22, 23,               # D09
+        24, 25, 26, 27,       # D10
+        28, 29, 30,           # D11
+        31, 32, 33,           # D12
+        34, 35, 36, 37,       # D13
+        38, 39, 40, 41,       # D14
+        42, 43, 44, 45,       # D15
+        46, 47, 48,           # D16
+        49, 50, 81,           # D17
+        51, 52,               # D18
+        53, 54, 55, 82,       # D19
+        56, 57,               # D20
+        58, 59,               # D21
+        60, 61, 62, 63, 64,   # D22
+        65, 66, 67, 68,       # D23
+        69, 70, 71,           # D24
+        72, 73,               # D25
+        77, 78,               # D26
+        75, 76,               # D27
+        79, 80                # D28
+        ]
+    postal_codes = []
+    
+    for each in ref_sector_code:
+        each_sector = range(0,10000)
+        each_sector = ['{0:06}'.format(p+(each*10000)) for p in each_sector]
+        postal_codes = postal_codes + each_sector
+    
     all_buildings = pool.map(pcode_to_data, postal_codes)
     all_buildings.sort(key=lambda b: (b['POSTAL'], b['SEARCHVAL']))
 
